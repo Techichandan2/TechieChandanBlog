@@ -1,0 +1,123 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static '/blog/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static '/blog/css/style.css' %}">
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="{% static '/blog/js/bootstrap.min.js' %}"></script>
+        <script src="{% static '/blog/js/jquery-3.6.0.min.js' %}"></script>
+        <script src="{% static '/blog/js/script.js' %}"></script>
+        <!-- <script src="{% static 'users/js/script.js' %}"></script> -->
+        <!-- <script src="{% static 'users/js/script.js' %}"></script> -->
+        <title> {% block title %}{% endblock title %} </title>
+        <style>
+            #dp-options{
+                margin-left:-115px;
+            }
+            @media screen and (max-width:768px){
+                #dp-options{
+                    margin-left:0px;
+                }
+            }
+            #cat-in-nav{
+                margin-left:-27px;
+            }
+            @media screen and (max-width:768px){
+                #cat-in-nav{
+                    margin-left:0px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- navbar  -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top px-4" id="navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand mr-5" href="{%url 'home' %}" id="logo">Techie Chandan</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-lg-0">
+                        <li class="nav-item me-3">
+                            <a class="nav-link active" aria-current="page" href="{%url 'home' %}">Home</a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <div class="dropdown">
+                                <a class="nav-link" href="" id="dp" data-bs-toggle="dropdown" aria-expanded="false">Category</a>
+                                
+                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dp" id="cat-in-nav">
+                                  <li><a class="dropdown-item" href="{% url 'filterposts' category='YouTube' %}">YouTube</a></li>
+                                  <li><a class="dropdown-item" href="{% url 'filterposts' category='Tech-Update' %}">Tech Update</a></li>
+                                  <li><a class="dropdown-item" href="{% url 'filterposts' category='Earn-Money' %}">Earn Money</a></li>
+                                  <li><a class="dropdown-item" href="{% url 'filterposts' category='Review' %}">Review</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <a href="" style="font-size:30px; text-decoration:none; color:black;" id="dp" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-user-circle-o" ></i></a>
+                        
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dp" id="dp-options">
+                          <li><a class="dropdown-item" href="{%url 'changepass'%}">Change Password</a></li>
+                          <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <a href="{%url 'login' %}" class="btn btn-danger me-3">Login</a>
+                    <a href="{%url 'register' %}" class="btn btn-danger">Signup</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        <!-- post -->
+        {% block body %}{% endblock body %}
+        
+        <!-- footer -->
+        <div class="container-fluid p-4" id="footer">
+            <div class="row justify-content-evenly">
+                <div class="col-md-3 col-12">
+                    <h3>Important Links</h3>
+                    <ul class="footer-link-list">
+                        <li><a href="{%url 'home' %}"><i class="fa fa-check pe-2"></i>Home</a></li>
+                        <li><a href="{%url 'about' %}"><i class="fa fa-check pe-2"></i>About Us</a></li>
+                        <li><a href="{%url 'contact' %}"><i class="fa fa-check pe-2"></i>Contact Us</a></li>
+                        <li><a href="{%url 'disclaimer' %}"><i class="fa fa-check pe-2"></i>Disclaimer</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-12">
+                    <h3>Category</h3>
+                    <ul class="footer-link-list">
+                        <li><a href="{% url 'filterposts' category='YouTube' %}"><i class="fa fa-check pe-2"></i>YouTube</a></li>
+                        <li><a href="{% url 'filterposts' category='Tech-Update' %}"><i class="fa fa-check pe-2"></i>Tech Update</a></li>
+                        <li><a href="{% url 'filterposts' category='Earn-Money' %}"><i class="fa fa-check pe-2"></i>Earn Money</a></li>
+                        <li><a href="{% url 'filterposts' category='Review' %}"><i class="fa fa-check pe-2"></i>Review</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-12">
+                    <h3>Follow on</h3>
+                    <ul class="footer-link-list">
+                        <li><a href="https://www.youtube.com/TechieChandan" target="_blank" id="youtube"><i class="fa fa-youtube pe-2"></i>YouTube</a></li>
+                        <li><a href="https://www.instagram.com/TechieChandan" target="_blank" id="instagram"><i class="fa fa-instagram pe-2"></i>Instagram</a></li>
+                        <li><a href="https://www.facebook.com/TechieChandan8" target="_blank" id="facebook"><i class="fa fa-facebook pe-2"></i>Facebook</a></li>
+                        <li><a href="https://www.twitter.com/TechieChandan8" target="_blank" id="twitter"><i class="fa fa-twitter pe-2"></i>Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container-fluid text-center">
+                <p><strong>TechieChandan | </strong> Copyright<i class="fa fa-at mx-1"></i><span class="me-1"><script>document.write(new Date().getFullYear());</script></></span>TechieChandan.com</p>
+            </div>
+        </div>
+        <script>
+            document.getElementById('alert').style = 'display:none';
+          </script>
+    </body>
+</html>

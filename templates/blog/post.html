@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{post.title}}{% endblock title %}
+
+{% block body %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" id="alert">
+    <strong>Information: </strong> <span id="info">{{ message }}</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% if post %}
+<div class="container-fluid p-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-12  px-0">
+            <div class="card">
+                <img src="{{post.thumbnail.url}}" alt="thumbnail" class="img-fluid" alt="">
+                <div class="px-4 my-4">
+                    <div class="my-2">
+                        <a href="#" id="category-in-ps-body">{{post.category}}</a>
+                    </div>
+                    <div class="">
+                        <h3>{{post.title}}</h3>
+                    </div>
+                    <div class="">
+                        <span><i class="fa fa-user me-2"></i>by {{post.author}}</span>
+                        <span><i class="fa fa-clock-o mx-2"></i>{{post.time_stamp}}</span>
+                    </div>
+                    <div class="py-4">
+                        {{post.content |safe }}
+                    </div>
+                </div>
+            </div>
+            <!-- comments box  -->
+            {% if user.is_authenticated %}
+            <div class="card my-2 p-5">
+                <div class="card-heading mb-3">
+                    <h3>Leave a Comment</h3>
+                </div>
+                <form action="/posts/post_comment" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <input type="hidden" class="form-control" value="{{post.sno}}" id="sno" name='sno' required>
+                            <input type="hidden" name="ParentSno" value = "">
+
+                            <textarea style="border-radius: 10px;" class="form-control" name="comment" id="comment"
+                                cols="80" rows="3" placeholder="Type here..." required></textarea>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <div class="d-grid mx-auto col-4">
+                                <button style="border-radius:30px;" type="submit" class="btn btn-danger">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+
+            <!-- commentlist -->
+            {% if comment %}
+            <div class="card my-2 p-5">
+                <div class="mb-3 border-bottom">
+                    <h3>Comments({{comment.count}})</h3>
+                </div>
+                {% for comments in comment %}
+                <div class="mb-4 border-bottom">
+                    <span class="me-2" style="font-size:1.8rem;"><i
+                            class="fa fa-user-circle-o me-2"></i>{{comments.user.username}}</span>
+                    <div class="ms-3"><i class="fa fa-clock-o mx-2"></i>{{comments.time_stamp }}</div>
+                    <div class="ms-4 mt-2">
+                        <p>{{comments.comment}}</p>
+                    </div>
+
+                    {% if user.is_authenticated %}
+                        <button class="btn btn-danger mb-3 ms-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#commentBx{{comments.sno}}" aria-expanded="false" aria-controls="commentBx{{comments.sno}}" style="font-size:12px; border-radius: 15px;">reply
+                        </button>
+                    <div class="collapse" id="commentBx{{comments.sno}}">
+                        <div class="card-body">
+                            <form action="/posts/post_comment" method="post" onSubmit="return MyFucn()">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12 mb-4">
+                                        <textarea style="border-radius: 10px;" class="form-control" name="comment"
+                                            id="comment" cols="80" rows="3" placeholder="Type here..." required>
+                                        </textarea>
+
+                                        <input type="hidden" name="ParentSno" value = "{{comments.sno}}">
+                                        
+                                        <input type="hidden" class="form-control" value="{{post.sno}}" id="sno" name='sno' required>
+                                    </div>
+                                    <div class="col-12 mb-2">
+                                        <div class="d-grid mx-auto col-4">
+                                            <button style="border-radius:30px;" type="submit"
+                                                class="btn btn-danger">Send</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <!-- replies -->
+                    {% for reply in comments.replies.all %}
+                            <div class="container-fluid">
+                                <span class="me-2" style="font-size:1.8rem;"><i
+                                    class="fa fa-user-circle-o me-2"></i>{{reply.user.username}}
+                                </span>
+                                <div class="ms-3"><i class="fa fa-clock-o mx-2"></i>{{reply.time_stamp }}</div>
+                                <div class="ms-4 mt-2">
+                                    <p>{{reply.comment}}</p>
+                                </div>
+                            </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container my-5 py-2" style="height:100vh;">
+    <h1 class="display-4 text-center">Oops! Page not found your are looking for...</h1>
+</div>
+{% endif %}
+<script>
+    function MyFucn() {
+        alert("form submitted");
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var message = document.getElementById('message').value;
+        if (name.length < 4) {
+            alert('Name must be at least 4 characters');
+            return false;
+        }
+        return false;
+    }
+
+    function ReplyBox() {
+        if (document.getElementById("reply-box").style.display == "none") {
+            document.getElementById("reply-box").style = "display:block"
+        }
+        else {
+            document.getElementById("reply-box").style = "display:none"
+        }
+    }
+</script>
+
+{% endblock body %}

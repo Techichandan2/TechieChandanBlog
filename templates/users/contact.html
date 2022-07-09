@@ -1,0 +1,83 @@
+{% extends 'head.html' %}
+
+{% block title %}Contact | TechieChandan{% endblock title %}
+
+{% block body %}
+{% comment %} <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert">
+    <strong>Information</strong>Demo
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div> {% endcomment %}
+
+ {% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" id="alert">
+    <strong>Information: </strong> <span id="info">{{ message }}</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+  {% endfor %}
+
+<div class="container-fluid " id="infobox" style="display:none;">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>Notification: </strong><span id="info"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+ 
+<div class="row justify-content-center my-5">
+    <div class="col-md-4 card col-10 px-0">
+        <div class="container-fluid bg-danger py-2 text-center">
+            <h3 style="color:white;">Contact Us</h3>
+        </div>
+        <div class="container py-4">
+            <form action="" method="post" onSubmit="return Validator()">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control" id="name"  placeholder="Enter your name" aria-describedby="emailHelp" required>
+                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label" >Email</label>
+                    <input type="email" name="email" class="form-control" id="email" placeholder="Enter your email address" aria-describedby="emailHelp" required>
+                    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control" name="message" id="message" cols="80" rows="10" placeholder="Type here..." required></textarea>
+                </div>
+                <div class="mt-4 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-danger">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function Validator() {
+        var infobox = document.getElementById('infobox');
+        var info = document.getElementById('info');
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var message = document.getElementById('message').value;
+
+        if(name.length < 2){
+        info.innerHTML = 'Name must be at least 2 characters, Please try again';
+        infobox.style = 'display:block'
+        return false;
+        }
+        if(name.length > 25){
+        info.innerHTML = 'Name should only contains 25 characters'
+        infobox.style = 'display:block'
+        return false;
+        }
+        if(message.length > 250){
+        info.innerHTML = 'Message should only contains 250 characters'
+        infobox.style = 'display:block'
+        return false;
+        }
+
+    }
+</script>
+{% endblock body %}

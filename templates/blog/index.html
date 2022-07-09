@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block title %}Home | TechieChandan{% endblock title %}
+
+
+{% block body %}
+
+
+<div class="container-fluid">
+    <div class="container py-4">
+        {% for posts in allPost %}
+        <div class="row shadow p-0 mb-4" id="post-body">
+            <div class="col-md-5 col-12 p-0">
+                <img src="{{posts.thumbnail.url}}" class="img-fluid" alt="">
+            </div>
+            <div class="col-md-7 col-12 py-2">
+                <h3>{{posts.title}}</h3>
+                <p>{{posts.content | safe | truncatechars:600}}
+                </p>
+                <div class="d-grid gap-2 col-4 mx-auto mb-4">
+                    <a href="/posts/{{posts.slug}}" class="btn btn-primary" type="button">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="container d-grid col-4 col-md-2 mx-auto mt-4 py-4">
+            <a href="{%url 'showAllPost'%}" class="btn btn-danger">More Posts</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock body %}

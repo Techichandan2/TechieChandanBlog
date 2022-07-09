@@ -1,0 +1,49 @@
+{% extends 'head.html' %}
+
+{% block title %}Login | TechieChandan{% endblock title %}
+
+{% block body %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" id="alert">
+    <strong>Information: </strong> <span id="info">{{ message }}</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+  {% endfor %}
+
+<div class="row justify-content-center my-5">
+    <div class="col-md-4 card col-10 px-0">
+        <div class="container-fluid bg-danger py-2 text-center">
+            <h3 style="color:white;">Login</h3>
+        </div>
+        <div class="container px-5 py-4">
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" class="form-control" name="username" id="username" aria-describedby="emailHelp">
+                  <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                </div>
+
+                <!-- <div class="mb-3">
+                  <label for="email" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                </div> -->
+
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" name="password" id="password">
+                </div>
+                <div class="d-flex justify-content-center mb-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="border-top text-center py-3">
+                    <span class="">New User? <a href="{% url 'register'%}">Register</a> </span>
+                </div>
+                <div class="text-center pb-3">
+                    <span class="">Forgot Username or Password? <a href="{% url 'password_reset_form'%}">Reset</a> </span>
+                </div>
+              </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

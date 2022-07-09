@@ -1,0 +1,80 @@
+
+html a{
+    text-decoration: none;
+}
+
+body{
+    background-color: #ececec;
+    overflow-x: hidden;
+}
+
+
+
+/* logo */
+#logo{
+    font-size: 2rem;
+    color:#f13030;
+    font-weight: bold;
+}
+
+#navbar{
+    padding:40;
+}
+
+
+#navbarSupportedContent ul li a:hover{
+    color: #f13030;
+}
+
+
+.navbar-nav li a{
+    font-size: 1.3rem;
+}
+
+
+#post-body{
+    background-color:#fcfefe;
+}
+
+
+
+
+#footer{
+    background-color:#fff;
+}
+
+.footer-link-list{
+    list-style: none;
+    padding:10px;
+}
+.footer-link-list li a{
+    text-decoration: none;
+    color:#000;
+}
+.footer-link-list li a:hover{
+    /* padding-left: 5px; */
+    color: #f13030;
+}
+
+.footer-link-list li #youtube{
+    color: #f50c0c;
+}
+.footer-link-list li #instagram{
+    color: #f5074e;
+}
+.footer-link-list li #facebook{
+    color: #2d0af1;
+}
+.footer-link-list li #twitter{
+    color: #0a89f1;
+}
+
+
+/* post body */
+#category-in-ps-body{
+    color: red;
+    font-weight: bold;
+}
+
+
+
